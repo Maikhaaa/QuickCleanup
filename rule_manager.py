@@ -16,13 +16,13 @@ class SortingRule():
 	def make_ui(self, parent: str): #TODO move this somewhere so that we ensure each rule has an ui
 		with dpg.table_row(tag=f'row-{self.id}', parent=parent):
 			with dpg.table_cell():
-				dpg.add_combo(items=['type', 'name', 'size'], default_value='name', tag=f'combo-{self.id}', callback=self.update)	
+				dpg.add_combo(items=['type', 'name', 'size'], default_value='type', tag=f'combo-{self.id}', callback=self.update)	
 
 			with dpg.table_cell():
-				dpg.add_input_text(default_value='lolz', tag=f'value-{self.id}', callback=self.update)	
+				dpg.add_input_text(default_value='.mp3', tag=f'value-{self.id}', callback=self.update)	
 
 			with dpg.table_cell():
-				dpg.add_input_text(default_value='target_directory', tag=f'target-{self.id}', callback=self.update)
+				dpg.add_input_text(default_value='', tag=f'target-{self.id}', callback=self.update)
 			
 			with dpg.table_cell():
 				dpg.add_button(label='x', tag=f'delete-{self.id}', callback=lambda:remove_rule(self.id))
@@ -32,7 +32,6 @@ class SortingRule():
 		self.mode = self.get_mode()
 		self.value = self.get_value()
 		self.target_directory = self.get_target()
-		print(self)
 
 
 	def get_mode(self):
@@ -64,16 +63,13 @@ def add_rule(mode: str, value, target_directory, parent: str="") -> SortingRule:
 
 def remove_rule(rule_id: str) -> None:
 	if rule_id in sorting_rules.keys():
-		print("---")
-		for i in sorting_rules.keys():
-			print(sorting_rules[i])
-		sorting_rules.pop(rule_id)
+		del sorting_rules[rule_id]
 		dpg.delete_item(f'row-{rule_id}')
 		return
 	raise ValueError(f'Rule with ID {rule_id} not found')
 
 
-def get_all_rules() -> list:
+def get_rules() -> list:
 	rules = [*sorting_rules.values()]
 	return rules
 

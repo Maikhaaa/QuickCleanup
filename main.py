@@ -1,5 +1,6 @@
 import dearpygui.dearpygui as dpg
 from pathlib import Path
+import tomllib
 import file_manager as fm
 import rule_manager as rm
 
@@ -17,16 +18,26 @@ target_directory: Path = home_directory / 'downloads/weewoo'
 sort_directory: Path = home_directory / 'downloads'
 
 
-def sort_files() -> None:
+def start_sort() -> None:
 	try:
-		directory = get_directory()
-		fm.load_files(directory)
-
-		for rule in rm.get_rules():
-			pass
-
+		sort_files()
 	except Exception as e:
 		print(f'error sorting files: {e}')
+
+
+def sort_files() -> None:
+	fm.load_files(get_directory())
+	rules = rm.get_rules()
+	if not rules:
+		print("no rules found")
+		return
+	
+	for rule in rm.get_rules():
+		files = fm.find_files(rule.mode, rule.value)
+		for file in files:
+			target = rule.target_directory
+			if target.exists():
+				file.move(target)
 
 
 def get_directory() -> str:

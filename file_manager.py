@@ -75,20 +75,14 @@ def find_files(mode: str, value) -> list[ManagedFile]:
 	def filter_files(function) -> list[ManagedFile]:
 		files = [*filter(function, managed_files)]
 		return files 
-
-
 	if mode not in {'type', 'name', 'size'}:
 		raise ValueError('Invalid mode provided')
-
 	if mode == 'name':
 		return filter_files(lambda x: value in x.get_name())
-
 	elif mode == 'type':
 		return filter_files(lambda x: value == x.get_extension())
-
 	elif mode == 'size':
 		return filter_files(lambda x: x.get_size())
-
 	return []
 
 def load_files(directory: str) -> None:
