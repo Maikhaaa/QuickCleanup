@@ -19,7 +19,7 @@ pip install dearpygui
 or
 pip3 install dearpygui
 ```
-Download the repository into a new "src" file in your environment.
+Download the repository into your environment.
 ```
 git clone https://github.com/Maikhaaa/QuickCleanup
 ```
